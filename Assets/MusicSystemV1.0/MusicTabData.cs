@@ -8,6 +8,7 @@ public class MusicTabData : MonoBehaviour
     [SerializeField] private Image _iconImage;
     [SerializeField] private List<GameObject> _tabSections;
 
-    public Image IconImage => _iconImage;
-    public List<GameObject> TabSections => _tabSections;
+    public Image GetIconImage => _iconImage;
+
+    public List<GameObject> GetTabSections => _tabSections;
 }

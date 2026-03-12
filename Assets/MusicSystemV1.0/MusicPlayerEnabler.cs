@@ -2,13 +2,13 @@ using UnityEngine;
 
 public class MusicPlayerEnabler : MonoBehaviour
 {
-    [SerializeField] private GameObject musicPlayer;
+    [SerializeField] private GameObject _musicPlayer;
 
     public void Enabler()
     {
-        if (musicPlayer.activeSelf == true)
-            musicPlayer.SetActive(false);
+        if (_musicPlayer.activeSelf == true)
+            _musicPlayer.SetActive(false);
         else
-            musicPlayer.SetActive(true);
+            _musicPlayer.SetActive(true);
     }
 }

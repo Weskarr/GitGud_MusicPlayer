@@ -23,11 +23,11 @@ public class MusicTabsController : MonoBehaviour
         if (_currentTabData != null)
         {
             TabSectionsEnabler(_currentTabData, false);
-            _currentTabData.IconImage.color = _iconSpriteNotSelectedColor;
+            _currentTabData.GetIconImage.color = _iconSpriteNotSelectedColor;
         }
 
         TabSectionsEnabler(newTab, true);
-        newTab.IconImage.color = _iconSpriteSelectedColor;
+        newTab.GetIconImage.color = _iconSpriteSelectedColor;
         _currentTabData = newTab;
     }
 
@@ -36,7 +36,7 @@ public class MusicTabsController : MonoBehaviour
         if (tab == null)
             return;
 
-        List<GameObject> sections = tab.TabSections;
+        List<GameObject> sections = tab.GetTabSections;
 
         foreach (GameObject section in sections)
             section.SetActive(direction);

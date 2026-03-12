@@ -5,6 +5,8 @@ using UnityEngine.UI;
 
 public class MusicManager : MonoBehaviour
 {
+    [SerializeField] private float _musicVolumeStart = 0.5f;
+
     [SerializeField] private GameObject _musicWindow;
     [SerializeField] private MusicSource _musicSource;
 
@@ -24,17 +26,8 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _linkDisplay;
     [SerializeField] private TextMeshProUGUI _licenseDisplay;
 
-    [SerializeField] private float _musicVolumeStart = 0.5f;
 
-    private void SubscribeToIsFinishedPlayingMusicPiece()
-    {
-        _musicSource.IsFinishedPlayingMusicPiece += GoPlayNewMusicPiece;
-    }
-
-    private void UnsubscribeToIsFinishedPlayingMusicPiece()
-    {
-        _musicSource.IsFinishedPlayingMusicPiece -= GoPlayNewMusicPiece;
-    }
+    #region Start Function
 
     private void Start()
     {
@@ -47,6 +40,24 @@ public class MusicManager : MonoBehaviour
         _musicVolumeSlider.SetValueWithoutNotify(_musicVolumeStart);
         _musicSource.ChangeMusicVolume(_musicVolumeStart);
     }
+
+    #endregion
+
+    #region Subscription Functions
+
+    private void SubscribeToIsFinishedPlayingMusicPiece()
+    {
+        _musicSource.IsFinishedPlayingMusicPiece += GoPlayNewMusicPiece;
+    }
+
+    private void UnsubscribeToIsFinishedPlayingMusicPiece()
+    {
+        _musicSource.IsFinishedPlayingMusicPiece -= GoPlayNewMusicPiece;
+    }
+
+    #endregion
+
+    #region Section Functions
 
     private void UpdateCurrentlyPlayingSection()
     {
@@ -61,49 +72,9 @@ public class MusicManager : MonoBehaviour
         _openLicenseLink.ChangeMusicLink(_currentMusicSO.MusicLink);
     }
 
-    public void TriggerPauseMusic(bool pause)
-    {
-        _musicSource.PauseMusic(pause);
-    }
+    #endregion
 
-    public void TriggerMusicVolumeChange(float volume)
-    {
-        _musicSource.ChangeMusicVolume(volume);
-    }
-
-    public void TriggerPlayNextSong()
-    {
-        GoPlayNewMusicPiece();
-    }
-
-    public void TriggerPlayPreviousSong()
-    {
-        // Safety check.
-        if (_previousMusicSO == null)
-            return;
-
-        // Return current song to available pool.
-        //if (_currentMusicSO != null && !_musicAvailable.Contains(_currentMusicSO))
-        //    _musicAvailable.Add(_currentMusicSO);
-
-        // Swap current and previous.
-        SongSO temp = _currentMusicSO;
-        _currentMusicSO = _previousMusicSO;
-        _previousMusicSO = temp;
-
-        // Play the previous music.
-        _musicSource.ChangeMusic(_currentMusicSO);
-
-        // Move current to unavailable.
-        if (_musicAvailable.Contains(_currentMusicSO))
-            _musicAvailable.Remove(_currentMusicSO);
-
-        if (!_musicUnavailable.Contains(_currentMusicSO))
-            _musicUnavailable.Add(_currentMusicSO);
-
-        UpdateCurrentlyPlayingSection();
-        UpdateDetailsSection();
-    }
+    #region Playing Functions
 
     private void GoPlayNewMusicPiece()
     {
@@ -136,6 +107,10 @@ public class MusicManager : MonoBehaviour
             _musicAvailable.Add(so);
     }
 
+    #endregion
+
+    #region Getter Functions
+
     private SongSO GetNextAvailableSongSO()
     {
         // Safety Check.
@@ -155,4 +130,73 @@ public class MusicManager : MonoBehaviour
         int index = Random.Range(0, max);
         return _musicAvailable[index];
     }
+
+    #endregion
+
+    #region Pause Functions
+
+    private void OnApplicationPause(bool isPaused)
+    {
+        PauseMusic(isPaused);
+    }
+
+    public void PauseMusic(bool isPaused)
+    {
+        _musicSource.ChangeIsPaused(isPaused);
+        _pauseToggle.SetIsOnWithoutNotify(isPaused);
+    }
+
+    #endregion
+
+    #region Trigger Functions
+
+    public void TriggerPauseMusic(bool pause)
+    {
+        PauseMusic(pause);
+    }
+
+    public void TriggerMusicVolumeChange(float volume)
+    {
+        _musicSource.ChangeMusicVolume(volume);
+    }
+
+    public void TriggerPlayNextSong()
+    {
+        // Make sure it isn't paused.
+        PauseMusic(false);
+
+        // Go play now.
+        GoPlayNewMusicPiece();
+    }
+
+    public void TriggerPlayPreviousSong()
+    {
+        // Safety check.
+        if (_previousMusicSO == null)
+            return;
+
+        // Return current song to available pool.
+        //if (_currentMusicSO != null && !_musicAvailable.Contains(_currentMusicSO))
+        //    _musicAvailable.Add(_currentMusicSO);
+
+        // Swap current and previous.
+        SongSO temp = _currentMusicSO;
+        _currentMusicSO = _previousMusicSO;
+        _previousMusicSO = temp;
+
+        // Play the previous music.
+        _musicSource.ChangeMusic(_currentMusicSO);
+
+        // Move current to unavailable.
+        if (_musicAvailable.Contains(_currentMusicSO))
+            _musicAvailable.Remove(_currentMusicSO);
+
+        if (!_musicUnavailable.Contains(_currentMusicSO))
+            _musicUnavailable.Add(_currentMusicSO);
+
+        UpdateCurrentlyPlayingSection();
+        UpdateDetailsSection();
+    }
+
+    #endregion
 }

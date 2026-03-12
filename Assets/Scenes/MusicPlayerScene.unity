@@ -399,15 +399,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _musicManager: {fileID: 1588235862}
-  _musicSource: {fileID: 91178912}
-  isPlaying: 0
-  songStartDspTime: 0
-  songLength: 0
-  songElapsed: 0
-  songProgress: 0
-  songDefaultVolume: 0
+  _audioSource: {fileID: 91178912}
+  _isPaused: 0
+  _pausedElapsed: 0
+  _songStartDspTime: 0
+  _songLength: 0
+  _songElapsed: 0
+  _songProgress: 0
+  _songDefaultVolume: 0
   _musicVolume: 0
-  fadeOutDuration: 10
+  _fadeOutDuration: 2
 --- !u!1 &96171962
 GameObject:
   m_ObjectHideFlags: 0
@@ -2680,7 +2681,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c029ae1d748d96b409068d011e3e87b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  musicPlayer: {fileID: 4192534651362223508}
+  _musicPlayer: {fileID: 4192534651362223508}
 --- !u!114 &1291117500
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3477,6 +3478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b5df55fe5fd6c0845bc1cd1c86dc4a75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _musicVolumeStart: 0.5
   _musicWindow: {fileID: 4192534651362223508}
   _musicSource: {fileID: 91178914}
   _currentMusicSO: {fileID: 0}
@@ -3491,7 +3493,6 @@ MonoBehaviour:
   _artistDisplay: {fileID: 154296341}
   _linkDisplay: {fileID: 1847600598}
   _licenseDisplay: {fileID: 2054205364}
-  _musicVolumeStart: 0.5
 --- !u!4 &1588235863
 Transform:
   m_ObjectHideFlags: 0

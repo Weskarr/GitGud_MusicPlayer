@@ -7,90 +7,115 @@ using UnityEngine.Audio;
 public class MusicSource : MonoBehaviour
 {
     [SerializeField] private MusicManager _musicManager;
-    [SerializeField] private AudioSource _musicSource;
+    [SerializeField] private AudioSource _audioSource;
 
-    [SerializeField] private bool isPlaying;
-    [SerializeField] private double songStartDspTime;
-    [SerializeField] private double songLength;
-    [SerializeField] private double songElapsed;
-    [Range(0, 100),SerializeField] private double songProgress;
-    [SerializeField] private float songDefaultVolume;
+    [SerializeField] private bool _isPaused;
+    [SerializeField] private double _pausedElapsed;
+    [SerializeField] private double _songStartDspTime;
+    [SerializeField] private double _songLength;
+    [SerializeField] private double _songElapsed;
+    [Range(0, 100),SerializeField] private double _songProgress;
+    [SerializeField] private float _songDefaultVolume;
     [SerializeField] private float _musicVolume;
-
-    [SerializeField] private float fadeOutDuration = 2.0f;
+    [SerializeField] private float _fadeOutDuration = 2.0f;
 
     public Action IsFinishedPlayingMusicPiece;
 
-    void Update()
+    #region Update Function
+
+    private void Update()
     {
         // Safety Check.
-        if (!isPlaying)
+        if (_isPaused)
             return;
 
         // Update Time-based.
-        songElapsed = AudioSettings.dspTime - songStartDspTime;
-        songProgress = songElapsed / songLength * 100;
-        double timeRemaining = songLength - songElapsed;
+        _songElapsed = AudioSettings.dspTime - _songStartDspTime;
+        _songProgress = _songElapsed / _songLength * 100;
+        double timeRemaining = _songLength - _songElapsed;
 
         // Apply fade out only in last fadeOutDuration.
-        if (timeRemaining <= fadeOutDuration)
+        if (timeRemaining <= _fadeOutDuration)
         {
             // Goes 1.0 -> 0.0 instead.
-            float fadeFactor = Mathf.Clamp01((float)(timeRemaining / fadeOutDuration)); 
-            float targetVolume = _musicVolume * songDefaultVolume * fadeFactor;
-            _musicSource.volume = targetVolume;
+            float fadeFactor = Mathf.Clamp01((float)(timeRemaining / _fadeOutDuration));
+            float targetVolume = _musicVolume * _songDefaultVolume * fadeFactor;
+            _audioSource.volume = targetVolume;
         }
         else
         {
             // Maintain live volume during normal play.
-            _musicSource.volume = _musicVolume * songDefaultVolume;
+            _audioSource.volume = _musicVolume * _songDefaultVolume;
         }
 
         // Song End.
-        if (songElapsed >= songLength)
+        if (_songElapsed >= _songLength)
         {
-            isPlaying = false;
-            IsFinishedPlayingMusicPiece();
+            _isPaused = true;
+            IsFinishedPlayingMusicPiece?.Invoke();
         }
     }
+
+    #endregion
+
+    #region Change Functions
 
     public void ChangeMusicVolume(float volume)
     {
         _musicVolume = volume;
     }
 
-    private void OnApplicationPause(bool pause)
-    {
-        PauseMusic(pause);
-    }
-
-    public void PauseMusic(bool pause)
-    {
-        if (pause)
-            _musicSource.Pause();
-        else
-            _musicSource.UnPause();
-    }
-
     public void ChangeMusic(SongSO musicSo)
     {
-        songDefaultVolume = musicSo.MusicVolume;
+        _pausedElapsed = 0;
 
-        _musicSource.clip = musicSo.MusicClip;
-        _musicSource.volume = songDefaultVolume;
+        _songDefaultVolume = musicSo.MusicVolume;
 
-        songLength = _musicSource.clip.length;
-        songStartDspTime = AudioSettings.dspTime;
+        _audioSource.clip = musicSo.MusicClip;
+        _audioSource.volume = _songDefaultVolume;
 
-        isPlaying = true;
-        _musicSource.PlayScheduled(songStartDspTime);
+        _songLength = _audioSource.clip.length;
+        _songStartDspTime = AudioSettings.dspTime;
+
+        _isPaused = false;
+        _audioSource.PlayScheduled(_songStartDspTime);
     }
+
+    public void ChangeIsPaused(bool isPaused)
+    {
+        // Check if the state changed.
+        if (_isPaused == isPaused)
+            return;
+
+        // Act accordingly, only when required.
+        if (isPaused)
+        {
+            // store how much time already passed
+            _pausedElapsed = AudioSettings.dspTime - _songStartDspTime;
+
+            _audioSource.Pause();
+        }
+        else
+        {
+            // shift start time forward so elapsed stays correct
+            _songStartDspTime = AudioSettings.dspTime - _pausedElapsed;
+
+            _audioSource.UnPause();
+        }
+
+        // Apply new development.
+        _isPaused = isPaused;
+    }
+
+    #endregion
+
+    #region Check Functions
 
     public bool CheckIsPlaying()
     {
-        if (_musicSource.isPlaying)
-            return true;
-        else
-            return false;
+        return !_isPaused;
     }
+
+    #endregion
+
 }
