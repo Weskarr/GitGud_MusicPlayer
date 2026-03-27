@@ -12,9 +12,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73a98fd4cafbeda4ea24286858403703, type: 3}
   m_Name: Soliloquy
   m_EditorClassIdentifier: 
-  _musicClip: {fileID: 8300000, guid: 701a182ef92407247acdf2941bf1421d, type: 3}
-  _musicTitle: Red Doors 2.0
-  _musicArtist: Matthew Pablo
-  _musicLink: www.opengameart.org
-  _musicLicense: 'CC BY 3.0 '
+  _musicClip: {fileID: 8300000, guid: 73f53ed2cc26d434c841d8e93927f2d3, type: 3}
+  _musicTitle: Soliloquy
+  _musicArtist: Sonican
+  _musicLink: www.pixabay.com
+  _musicLicense: Pixabay License
   _musicVolume: 0.25

@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f007393a6a49d964bb936eff5e1caf5a, type: 3}
+  m_Name: Tavern_Album
+  m_EditorClassIdentifier: 
+  _albumSongs:
+  - {fileID: 11400000, guid: 98c216f8339d78547821b198d9ad1dbf, type: 2}
+  - {fileID: 11400000, guid: 227f78c2f4b142a4394459819d0653a8, type: 2}
+  - {fileID: 11400000, guid: 9b6f28ef7ca334f45a6a41b02ed928b5, type: 2}
+  - {fileID: 11400000, guid: f96f0fcf19426a9479b28b896329d279, type: 2}
+  - {fileID: 11400000, guid: c6935c348d4dec848881b4395d1d0493, type: 2}

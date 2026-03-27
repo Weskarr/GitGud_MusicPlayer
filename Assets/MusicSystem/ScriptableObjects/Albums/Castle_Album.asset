@@ -1,0 +1,18 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f007393a6a49d964bb936eff5e1caf5a, type: 3}
+  m_Name: Castle_Album
+  m_EditorClassIdentifier: 
+  _albumSongs:
+  - {fileID: 11400000, guid: c5e6a9021ea57a84ba27b4ffb9aa038b, type: 2}
+  - {fileID: 11400000, guid: 9763de59cca3a7e4eb8ac8f81c263a30, type: 2}
+  - {fileID: 11400000, guid: 9be2209f839d2f845ad08e17f6c48980, type: 2}

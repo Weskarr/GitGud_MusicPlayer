@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73a98fd4cafbeda4ea24286858403703, type: 3}
   m_Name: Sneaky Piz
   m_EditorClassIdentifier: 
-  _musicClip: {fileID: 8300000, guid: 73f53ed2cc26d434c841d8e93927f2d3, type: 3}
-  _musicTitle: Soliloquy
+  _musicClip: {fileID: 8300000, guid: a34892517328fa8468e3f430e14c08c1, type: 3}
+  _musicTitle: Sneaky Piz
   _musicArtist: Sonican
   _musicLink: www.pixabay.com
   _musicLicense: Pixabay License

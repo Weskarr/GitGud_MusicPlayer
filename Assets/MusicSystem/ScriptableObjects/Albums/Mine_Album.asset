@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f007393a6a49d964bb936eff5e1caf5a, type: 3}
+  m_Name: Mine_Album
+  m_EditorClassIdentifier: 
+  _albumSongs:
+  - {fileID: 11400000, guid: 9af83b4284d34b64b9aae683e59e1cba, type: 2}
+  - {fileID: 11400000, guid: 8f2daf8a2ccc1974db86b56d1bbea9d1, type: 2}

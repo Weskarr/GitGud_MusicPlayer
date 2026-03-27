@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class MusicManager : MonoBehaviour
 {
+    [SerializeField] private bool _playMusicOnStart = true;
     [SerializeField] private float _musicVolumeStart = 0.5f;
 
     [SerializeField] private GameObject _musicWindow;
@@ -26,19 +27,20 @@ public class MusicManager : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _linkDisplay;
     [SerializeField] private TextMeshProUGUI _licenseDisplay;
 
-
     #region Start Function
 
     private void Start()
     {
         SubscribeToIsFinishedPlayingMusicPiece();
-        GoPlayNewMusicPiece();
 
         _pauseToggle.onValueChanged.AddListener(TriggerPauseMusic);
         _musicVolumeSlider.onValueChanged.AddListener(TriggerMusicVolumeChange);
 
         _musicVolumeSlider.SetValueWithoutNotify(_musicVolumeStart);
         _musicSource.ChangeMusicVolume(_musicVolumeStart);
+
+        if (_playMusicOnStart)
+            GoPlayNewMusicPiece();
     }
 
     #endregion
@@ -105,6 +107,29 @@ public class MusicManager : MonoBehaviour
         List<SongSO> songsSo = _currentAlbum.AlbumSongs;
         foreach (SongSO so in songsSo)
             _musicAvailable.Add(so);
+    }
+
+    #endregion
+
+    #region Setter Functions
+
+    public void SetAlbum(AlbumSO newAlbum)
+    {
+        // Check if an album switch is needed.
+        if (_currentAlbum == newAlbum)
+            return;
+        _currentAlbum = newAlbum;
+
+        // Reset pools so new album starts fresh.
+        _musicAvailable.Clear();
+        _musicUnavailable.Clear();
+
+        // Unpause, incase it's paused.
+        // !!! Not a huge fan of this tbh !!!
+        PauseMusic(false);
+
+        // Play a song from new album.
+        GoPlayNewMusicPiece();
     }
 
     #endregion

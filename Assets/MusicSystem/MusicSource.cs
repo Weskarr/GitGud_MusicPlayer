@@ -18,21 +18,44 @@ public class MusicSource : MonoBehaviour
     [SerializeField] private float _songDefaultVolume;
     [SerializeField] private float _musicVolume;
     [SerializeField] private float _fadeOutDuration = 2.0f;
+    [SerializeField] private float _fadeInDuration = 1.5f;
+
+    [SerializeField] private float _fadeInTimer;
+    [SerializeField] private bool _isFadingIn;
 
     public Action IsFinishedPlayingMusicPiece;
+
+    private bool _hasStarted = false;
 
     #region Update Function
 
     private void Update()
     {
         // Safety Check.
-        if (_isPaused)
+        if (_isPaused || !_hasStarted)
             return;
 
         // Update Time-based.
         _songElapsed = AudioSettings.dspTime - _songStartDspTime;
         _songProgress = _songElapsed / _songLength * 100;
         double timeRemaining = _songLength - _songElapsed;
+
+        // Apply fade in only at the start.
+        if (_isFadingIn)
+        {
+            _fadeInTimer += Time.deltaTime;
+            float current = Mathf.Clamp01(_fadeInTimer / _fadeInDuration);
+            float fadeInFactor = Mathf.SmoothStep(0f, 1f, current);
+            float targetVolume = _musicVolume * _songDefaultVolume;
+            _audioSource.volume = targetVolume * fadeInFactor;
+
+            // Check if done fading in.
+            if (current >= 1f)
+                _isFadingIn = false;
+
+            // Only return early when fading in.
+            return;
+        }
 
         // Apply fade out only in last fadeOutDuration.
         if (timeRemaining <= _fadeOutDuration)
@@ -67,6 +90,8 @@ public class MusicSource : MonoBehaviour
 
     public void ChangeMusic(SongSO musicSo)
     {
+        _hasStarted = true;
+
         _pausedElapsed = 0;
 
         _songDefaultVolume = musicSo.MusicVolume;
@@ -78,7 +103,13 @@ public class MusicSource : MonoBehaviour
         _songStartDspTime = AudioSettings.dspTime;
 
         _isPaused = false;
-        _audioSource.PlayScheduled(_songStartDspTime);
+
+        _fadeInTimer = 0f;
+        _isFadingIn = true;
+
+        _audioSource.volume = 0f;
+
+        _audioSource.Play();
     }
 
     public void ChangeIsPaused(bool isPaused)

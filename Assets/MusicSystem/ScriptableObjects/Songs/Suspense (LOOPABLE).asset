@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 73a98fd4cafbeda4ea24286858403703, type: 3}
-  m_Name: Library Mysterious
+  m_Name: Suspense (LOOPABLE)
   m_EditorClassIdentifier: 
-  _musicClip: {fileID: 8300000, guid: 7ca1b774d082b6241a3c812f4a0eadb4, type: 3}
-  _musicTitle: Library Mysterious
-  _musicArtist: Me (Wessel Blanker)
-  _musicLink: None
-  _musicLicense: None
-  _musicVolume: 0.8
+  _musicClip: {fileID: 8300000, guid: 1d70f246df331ca448650941b8a2bbfc, type: 3}
+  _musicTitle: Suspense
+  _musicArtist: FarBeyond  Studio
+  _musicLink: farbeyond-studio.itch.io/fantasy-music-loops
+  _musicLicense: 'CC BY 4.0 '
+  _musicVolume: 0.2
